@@ -1,0 +1,124 @@
+{
+  "name": "codex-usage-statusbar",
+  "displayName": "Codex Usage & Reset (Local)",
+  "description": "Codex usage and reset times directly in the VS Code status bar.",
+  "version": "1.3.0",
+  "publisher": "local",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "./extension.js",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "scripts": {
+    "test": "node test/account-switch.cjs && node test/realtime.cjs",
+    "install:local": "node scripts/install.mjs"
+  },
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:localCodexUsage.refresh",
+    "onCommand:localCodexUsage.showDetails",
+    "onCommand:localCodexUsage.setRefreshInterval",
+    "onCommand:localCodexUsage.openSettings",
+    "onCommand:localCodexUsage.openUsagePage"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "localCodexUsage.refresh",
+        "title": "Codex Quota: Refresh"
+      },
+      {
+        "command": "localCodexUsage.showDetails",
+        "title": "Codex Quota: Show Details"
+      },
+      {
+        "command": "localCodexUsage.setRefreshInterval",
+        "title": "Codex Quota: Set Refresh Interval"
+      },
+      {
+        "command": "localCodexUsage.openSettings",
+        "title": "Codex Quota: Open Settings"
+      },
+      {
+        "command": "localCodexUsage.openUsagePage",
+        "title": "Codex Quota: Open Usage Page"
+      }
+    ],
+    "configuration": {
+      "title": "Codex Quota Monitor",
+      "properties": {
+        "localCodexUsage.codexExecutablePath": {
+          "type": "string",
+          "default": "auto",
+          "description": "Path to the Codex executable. Keep auto to detect the Codex app, the VS Code OpenAI extension, or codex on PATH. Set an absolute path only if detection picks the wrong binary."
+        },
+        "localCodexUsage.refreshIntervalSeconds": {
+          "type": "number",
+          "default": 5,
+          "minimum": 0,
+          "description": "Backend refresh every 5 seconds by default; session usage events update immediately. 0 disables backend polling."
+        },
+        "localCodexUsage.requestTimeoutSeconds": {
+          "type": "number",
+          "default": 20,
+          "minimum": 5,
+          "description": "Timeout for one app-server quota request."
+        },
+        "localCodexUsage.statusBarIcon": {
+          "type": "string",
+          "default": "dashboard",
+          "enum": [
+            "none",
+            "terminal",
+            "dashboard",
+            "rocket",
+            "watch",
+            "graph",
+            "pulse",
+            "zap",
+            "beaker",
+            "symbol-event",
+            "hubot",
+            "wand",
+            "circuit-board",
+            "server",
+            "gear"
+          ],
+          "enumDescriptions": [
+            "Hide the status bar icon.",
+            "Terminal window; recommended for Codex CLI.",
+            "Dashboard/gauge style.",
+            "Rocket icon.",
+            "Watch/time-window icon.",
+            "Graph/statistics icon.",
+            "Pulse/status monitor icon.",
+            "Lightning icon.",
+            "Experimental/beaker icon.",
+            "Event/symbol icon.",
+            "Robot-style icon.",
+            "Magic wand icon.",
+            "Circuit-board icon.",
+            "Server icon.",
+            "Gear/settings icon."
+          ],
+          "description": "Status bar icon shown before Codex. This uses VS Code Codicons. Choose none to hide the status icon."
+        },
+        "localCodexUsage.showNotificationsOnError": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show VS Code warning notifications when quota refresh fails. Otherwise failures only appear in tooltip/output channel."
+        }
+      }
+    },
+    "menus": {
+      "commandPalette": [
+        { "command": "localCodexUsage.refresh" },
+        { "command": "localCodexUsage.showDetails" },
+        { "command": "localCodexUsage.setRefreshInterval" },
+        { "command": "localCodexUsage.openSettings" },
+        { "command": "localCodexUsage.openUsagePage" }
+      ]
+    }
+  }
+}
