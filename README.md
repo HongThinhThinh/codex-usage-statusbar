@@ -1,14 +1,14 @@
 # Codex Usage & Reset (Local)
 
-Hiển thị quota Codex (5h và 7d), giờ reset theo Việt Nam (UTC+7) và trạng thái màu trực tiếp trên status bar của VS Code.
+Shows Codex quota (5h and 7d windows), reset times in Vietnam time (UTC+7), and color-coded usage directly in the VS Code status bar.
 
-- Đọc quota qua `codex app-server` (kết nối giữ sẵn, cập nhật realtime).
-- Theo dõi `auth.json` để tự cập nhật khi đổi tài khoản Codex.
-- Không gửi model turn nào, không tốn quota.
+- Reads quota through `codex app-server` with a persistent connection, so updates are realtime.
+- Watches `auth.json` and clears old values when you switch accounts.
+- Never sends a model turn, so it does not consume quota.
 
-## Cài đặt (một lệnh)
+## Install (one command)
 
-Yêu cầu: VS Code, Node.js 18+, đã đăng nhập Codex (extension OpenAI ChatGPT hoặc Codex app).
+Requirements: VS Code, Node.js 18+, the `code` command in PATH, and a signed-in Codex (OpenAI ChatGPT extension or Codex app).
 
 ```bash
 git clone https://github.com/HongThinhThinh/codex-usage-statusbar.git
@@ -16,33 +16,33 @@ cd codex-usage-statusbar
 npm run install:local
 ```
 
-Sau đó trong VS Code chạy `Developer: Reload Window`.
+Then run `Developer: Reload Window` in VS Code.
 
-Trên máy khác đã clone rồi thì chỉ cần `git pull && npm run install:local`.
+On a machine where the repo is already cloned, run `git pull && npm run install:local`.
 
-## Cấu hình
+## Settings
 
-| Setting | Mặc định | Ghi chú |
+| Setting | Default | Notes |
 |---|---|---|
-| `localCodexUsage.codexExecutablePath` | `auto` | Tự dò Codex: Codex app, extension `openai.chatgpt-*` trong `~/.vscode` / `~/.cursor`, rồi `codex` trên PATH. Chỉ đặt đường dẫn tuyệt đối khi dò sai. |
-| `localCodexUsage.refreshIntervalSeconds` | `5` | `0` tắt polling nền. |
-| `localCodexUsage.statusBarIcon` | `dashboard` | `none` để ẩn icon. |
+| `localCodexUsage.codexExecutablePath` | `auto` | Auto-detects the Codex app, the `openai.chatgpt-*` extension under `~/.vscode` or `~/.cursor`, then `codex` on PATH. Set an absolute path only if detection picks the wrong binary. |
+| `localCodexUsage.refreshIntervalSeconds` | `5` | `0` disables background polling. |
+| `localCodexUsage.statusBarIcon` | `dashboard` | `none` hides the icon. |
 
-Biến môi trường `CODEX_HOME` được tôn trọng khi tìm `auth.json` (mặc định `~/.codex`).
+The `CODEX_HOME` environment variable is respected when locating `auth.json` (default `~/.codex`).
 
-## Kiểm tra
+## Test
 
 ```bash
 npm test
 ```
 
-`test/realtime.cjs` cần một binary Codex thật. Nếu `codex` không có trên PATH:
+`test/realtime.cjs` needs a real Codex binary. If `codex` is not on PATH:
 
 ```bash
-CODEX_EXECUTABLE="/đường/dẫn/tới/codex" npm test
+CODEX_EXECUTABLE="/path/to/codex" npm test
 ```
 
-## Lệnh trong Command Palette
+## Command Palette
 
 - `Codex Quota: Refresh`
 - `Codex Quota: Show Details`
